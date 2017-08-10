@@ -37,15 +37,9 @@ extension RecordSoundsViewController: AVAudioRecorderDelegate{
     
     func setUIState(isRecording:Bool, recordingText:String){
         recordingLabel.text = recordingText
-        if isRecording == true {
-            stopRecordingButton.isEnabled = true
-            recordButton.isEnabled = false
-        }else {
-            stopRecordingButton.isEnabled = false
-            recordButton.isEnabled = true
-        }
+        stopRecordingButton.isEnabled = isRecording
+        recordButton.isEnabled = !isRecording
     }
-
     
     @IBAction func recordAudio(_ sender: Any) {
         
@@ -76,7 +70,17 @@ extension RecordSoundsViewController: AVAudioRecorderDelegate{
         if flag {
             performSegue(withIdentifier: "stopRecording", sender: audioRecorder.url)
         } else {
-            print("recording was not successful")
+            let alertController = UIAlertController(title: "error", message: "Opps something went wrong, couldn't record please try again", preferredStyle: .alert)
+            
+            
+            let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+                
+            }
+            alertController.addAction(OKAction)
+            
+            self.present(alertController, animated: true) {
+                
+            }
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
